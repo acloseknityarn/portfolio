@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import { format } from "date-fns";
 
 interface Props {
   post: CollectionEntry<"post">;
@@ -8,13 +9,14 @@ interface Props {
 // destructuring of property values from an object
 const { data, slug } = Astro.props.post;
 const { title, publishDate, description } = data;
+const formattedDate = format(publishDate, "MMMM d, yyyy");
 ---
 
 <li>
   <a href={`/blog/${slug}`}>
     <article>
       <h2>{title}</h2>
-      <p>{publishDate}</p>
+      <p>{formattedDate}</p>
       <p>{description}</p>
     </article>
   </a>
