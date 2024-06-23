@@ -1,0 +1,22 @@
+---
+type Props = {
+  gapClass?: string
+  /**
+   * @deprecated
+   * @description Use this class only when you want to interop some existing class that you don't have a lot of control over to change straightforwardly
+   */
+  otherClass?: string
+}
+---
+
+<!-- vertical stack -->
+<div class:list={['stack', Astro.props.gapClass, Astro.props.otherClass]}>
+  <slot />
+</div>
+
+<style>
+  .stack {
+    display: flex;
+    flex-direction: column;
+  }
+</style>

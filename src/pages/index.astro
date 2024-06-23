@@ -16,38 +16,40 @@ import Skills from "../components/Skills.astro";
 // Full Astro Component Syntax:
 // https://docs.astro.build/basics/astro-components/
 
-import profilePic from "../images/portfolio-pic.jpg"
+import profilePic from "../images/portfolio-pic.jpg";
+import MaxWidthLayout from "@layouts/MaxWidthLayout.astro";
+import Stack from "@components/Stack.astro";
 ---
 
 <BaseLayout>
-  <div class="stack gap-20 lg:gap-48">
-    <div class="wrapper stack gap-8 lg:gap-20">
-      <header class="hero">
-        <Hero
-          title="Hello, my name is Aryamann Verma"
-          tagline="Computer Programming Undergrad From Georgian College, currently based in Halifax, Nova Scotia"
-          align="start"
-        >
-          <div class="roles">
-            <Pill><Icon icon="code" size="1.33em" /> Developer</Pill>
-            <Pill><Icon icon="guitar" size="1.33em" /> Guitarist</Pill>
-            <Pill><Icon icon="puzzle-piece" size="1.33em" /> Ludophile</Pill>
-          </div>
-        </Hero>
+  <Stack gapClass="gap-20 lg:gap-48">
+    <MaxWidthLayout>
+      <Stack gapClass="gap-8 lg:gap-20">
+        <header class="hero">
+          <Hero
+            title="Hello, my name is Aryamann Verma"
+            tagline="Computer Programming Undergrad From Georgian College, currently based in Halifax, Nova Scotia"
+            align="start"
+          >
+            <div class="roles">
+              <Pill><Icon icon="code" size="1.33em" /> Developer</Pill>
+              <Pill><Icon icon="guitar" size="1.33em" /> Guitarist</Pill>
+              <Pill><Icon icon="puzzle-piece" size="1.33em" /> Ludophile</Pill>
+            </div>
+          </Hero>
 
-        <Image
-          src={profilePic}
-          alt="Aryamann Verma portrait on chair in black jacket."
-          widths={[360, 456]}
-          sizes={`(max-width: 480px) 360px, 456px`}
-        />
-      </header>
-
-      <!-- <Skills /> -->
-    </div>
-
+          <Image
+            src={profilePic}
+            alt="Aryamann Verma portrait on chair in black jacket."
+            widths={[360, 456]}
+            sizes={`(max-width: 480px) 360px, 456px`}
+          />
+        </header>
+        <Skills />
+      </Stack>
+    </MaxWidthLayout>
     <ContactCTA />
-  </div>
+  </Stack>
 </BaseLayout>
 
 <style>

@@ -1,11 +1,13 @@
 ---
 import { getCollection } from "astro:content";
 
-import BaseLayout from "src/layouts/BaseLayout.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import MaxWidthLayout from "@layouts/MaxWidthLayout.astro"
 
 import ContactCTA from "../../components/ContactCTA.astro";
 import Hero from "@components/Hero.astro";
 import Pill from "../../components/Pill.astro";
+import Stack from "@components/Stack.astro";
 
 const allPosts = await getCollection("post");
 
@@ -15,31 +17,37 @@ const pageDescription = "Tag Index page";
 ---
 
 <BaseLayout title={pageTitle} description={pageDescription}>
-  <div class="stack gap-20">
-    <div class="wrapper">
+  <Stack gapClass="gap-20">
+    <MaxWidthLayout>
       <Hero
         title="Select specific tag to show posts"
         tagline="#"
         align="start"
       />
-      <div class="tags">
+      <ul class="tags">
         {
           tags.map((tag) => (
-            <Pill>
+            <li>
+              <Pill>
               <a href={`/tags/${tag}`}>{tag}</a>
             </Pill>
+            </li>
           ))
         }
-      </div>
-    </div>
+      </ul>
+    </MaxWidthLayout>
     <ContactCTA />
-  </div>
+  </Stack>
 </BaseLayout>
 
 <style>
   a {
     color: unset;
     text-decoration: none;
+  }
+
+  li {
+    list-style-type: none;
   }
 
   .details {
