@@ -4,9 +4,9 @@ import { getCollection } from "astro:content";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import MaxWidthLayout from "@layouts/MaxWidthLayout.astro"
 
-import ContactCTA from "../../components/ContactCTA.astro";
+import ContactCTA from "@components/ContactCTA.astro";
 import Hero from "@components/Hero.astro";
-import Pill from "../../components/Pill.astro";
+import Pill from "@components/Pill.astro";
 import Stack from "@components/Stack.astro";
 
 const allPosts = await getCollection("post");
