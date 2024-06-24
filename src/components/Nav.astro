@@ -2,6 +2,7 @@
 import Icon from "./Icon.astro";
 import ThemeToggle from "./ThemeToggle.astro";
 import type { iconPaths } from "./IconPaths";
+import VisuallyHidden from "./VisuallyHidden.astro";
 
 /** Main menu items */
 const textLinks: { label: string; href: string }[] = [
@@ -16,11 +17,31 @@ const iconLinks: {
   href: string;
   icon: keyof typeof iconPaths;
 }[] = [
-  { label: "Twitter", href: "https://x.com/acloseknityarn", icon: "twitter-logo" },
-  { label: "Twitch", href: "https://www.twitch.tv/captainclaw_", icon: "twitch-logo" },
-  { label: "GitHub", href: "https://github.com/acloseknityarn", icon: "github-logo" },
-  { label: "LinkedIn", href: "https://www.linkedin.com/in/aryamann-verma/", icon: "linkedin-logo" },
-    { label: "Instagram", href: "https://www.instagram.com/acloseknityarn/", icon: "instagram-logo" },
+  {
+    label: "Twitter",
+    href: "https://x.com/acloseknityarn",
+    icon: "twitter-logo",
+  },
+  {
+    label: "Twitch",
+    href: "https://www.twitch.tv/captainclaw_",
+    icon: "twitch-logo",
+  },
+  {
+    label: "GitHub",
+    href: "https://github.com/acloseknityarn",
+    icon: "github-logo",
+  },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/aryamann-verma/",
+    icon: "linkedin-logo",
+  },
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/acloseknityarn/",
+    icon: "instagram-logo",
+  },
   {
     label: "YouTube",
     href: "https://www.youtube.com/@aryamannverma",
@@ -40,14 +61,10 @@ const iconLinks: {
       />
       Aryamann Verma
     </a>
-    <menu-button>
-      <template>
-        <button class="menu-button" aria-expanded="false">
-          <span class="sr-only">Menu</span>
-          <Icon icon="list" />
-        </button>
-      </template>
-    </menu-button>
+    <button class="menu-button" aria-expanded="false">
+      <VisuallyHidden>Menu</VisuallyHidden>
+      <Icon icon="list" />
+    </button>
   </div>
   <noscript>
     <ul class="nav-items">
@@ -87,7 +104,7 @@ const iconLinks: {
       </div>
     </div>
   </noscript>
-  <div id="menu-content" hidden>
+  <div id="menu-content">
     <ul class="nav-items">
       {
         textLinks.map(({ label, href }) => (
@@ -130,40 +147,42 @@ const iconLinks: {
 </nav>
 
 <script>
-  class MenuButton extends HTMLElement {
-    constructor() {
-      super();
+  function mobileMenu() {
+    const flyoutMenu = document.getElementById("menu-content");
+    const flyoutButtonTrigger = document.querySelector(".menu-button");
 
-      // Inject menu toggle button when JS runs.
-      this.appendChild(this.querySelector("template")!.content.cloneNode(true));
-      const btn = this.querySelector("button")!;
-
-      // Hide menu (shown by default to support no-JS browsers).
-      const menu = document.getElementById("menu-content")!;
-      menu.hidden = true;
-      // Add "menu-content" class in JS to avoid covering content in non-JS browsers.
-      menu.classList.add("menu-content");
-
-      /** Set whether the menu is currently expanded or collapsed. */
-      const setExpanded = (expand: boolean) => {
-        btn.setAttribute("aria-expanded", expand ? "true" : "false");
-        menu.hidden = !expand;
-      };
-
-      // Toggle menu visibility when the menu button is clicked.
-      btn.addEventListener("click", () => setExpanded(menu.hidden));
-
-      // Hide menu button for large screens.
-      const handleViewports = (e: MediaQueryList | MediaQueryListEvent) => {
-        setExpanded(e.matches);
-        btn.hidden = e.matches;
-      };
-      const mediaQueries = window.matchMedia("(min-width: 50em)");
-      handleViewports(mediaQueries);
-      mediaQueries.addEventListener("change", handleViewports);
+    if (!flyoutMenu || !flyoutButtonTrigger) {
+      return;
     }
+
+    // hide the menu-content
+    flyoutMenu.hidden = true;
+
+    // add `.menu-content` class to menu-content element, so that it's absolutely positioned, and
+    // toggling it doesn't push our main content up and down.
+    flyoutMenu.classList.add("menu-content");
+
+    function handleMenuButtonTriggerClick() {
+      if (!flyoutMenu) {
+        return;
+      }
+
+      // aria-expanded
+      // toggle logic: if currently opened menu item has `hidden` === false => true, else vice versa
+      if (flyoutMenu.hidden) {
+        flyoutMenu.hidden = false;
+        flyoutButtonTrigger?.setAttribute("aria-expanded", "true");
+      } else {
+        flyoutMenu.hidden = true;
+        flyoutButtonTrigger?.setAttribute("aria-expanded", "false");
+      }
+    }
+
+    // register click event on button
+    flyoutButtonTrigger.addEventListener("click", handleMenuButtonTriggerClick);
   }
-  customElements.define("menu-button", MenuButton);
+
+  mobileMenu();
 </script>
 
 <style>
@@ -303,6 +322,9 @@ const iconLinks: {
       padding: 0;
     }
 
+    .menu-button {
+      display: none;
+    }
     .site-title {
       font-size: var(--text-lg);
     }
