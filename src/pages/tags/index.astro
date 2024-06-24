@@ -2,7 +2,7 @@
 import { getCollection } from "astro:content";
 
 import BaseLayout from "@layouts/BaseLayout.astro";
-import MaxWidthLayout from "@layouts/MaxWidthLayout.astro"
+import MaxWidthLayout from "@layouts/MaxWidthLayout.astro";
 
 import ContactCTA from "@components/ContactCTA.astro";
 import Hero from "@components/Hero.astro";
@@ -24,17 +24,19 @@ const pageDescription = "Tag Index page";
         tagline="#"
         align="start"
       />
-      <ul class="tags">
-        {
-          tags.map((tag) => (
-            <li>
-              <Pill>
-              <a href={`/tags/${tag}`}>{tag}</a>
-            </Pill>
-            </li>
-          ))
-        }
-      </ul>
+      <div class="details">
+        <ul class="tags">
+          {
+            tags.map((tag) => (
+              <li>
+                <Pill>
+                  <a href={`/tags/${tag}`}>{tag}</a>
+                </Pill>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
     </MaxWidthLayout>
     <ContactCTA />
   </Stack>
@@ -62,16 +64,13 @@ const pageDescription = "Tag Index page";
   .tags {
     display: flex;
     gap: 0.5rem;
+    flex-wrap: wrap;
   }
 
   @media (min-width: 50em) {
     .details {
       flex-direction: row;
       gap: 2.5rem;
-    }
-
-    .content :global(blockquote) {
-      font-size: var(--text-2xl);
     }
   }
 </style>
