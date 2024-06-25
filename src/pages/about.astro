@@ -6,23 +6,22 @@ import MaxWidthLayout from "@layouts/MaxWidthLayout.astro";
 import ContactCTA from "@components/ContactCTA.astro";
 import Hero from "@components/Hero.astro";
 import Stack from "@components/Stack.astro";
+
+import atWork from "../images/at-work.jpg";
 ---
 
-<BaseLayout
-  title="About | Jeanine White"
-  description="About Jeanine White Lorem Ipsum"
->
+<BaseLayout title="About | Aryamann Verma" description="About Aryaman Verma">
   <Stack gapClass="gap-20">
     <MaxWidthLayout>
       <!-- stacking on mobile, grid with 1fr 60% 1fr on desktop -->
       <main class="about">
         <Hero
           title="About"
-          tagline="Thanks for stopping by. Read below to learn more about myself and my background."
+          tagline="Hey Visitor! Thanks for stopping by. I'm Aryamann which translates to 'a companion'. I'm currently gaining experience in the web development world."
         >
           <Image
-            src="/assets/at-work.jpg"
-            alt="Jeanine White at work with a colleague"
+            src={atWork}
+            alt="Aryamann Verma at work"
             width="1553"
             height="873"
           />
@@ -32,41 +31,43 @@ import Stack from "@components/Stack.astro";
           <h2 class="section-title">Background</h2>
           <div class="content">
             <p>
-              Lorem ipsum dolor sit amet, <a href="https://astro.build/"
-                >Astro</a
-              >
-              makes people happy. Sed do eiusmod tempor incididunt ut labore et dolore
-              magna aliqua. Proin nibh nisl condimentum id venenatis a condimentum
-              vitae. Dapibus ultrices in iaculis nunc. Arcu odio ut sem nulla pharetra
-              diam sit amet. Diam quis enim lobortis scelerisque fermentum dui faucibus
-              in ornare.
-            </p>
-            <p>
-              Arcu dui vivamus arcu felis bibendum ut tristique et egestas. Eget
-              gravida cum sociis natoque penatibus. Cras fermentum odio eu
-              feugiat pretium nibh. Proin nibh nisl condimentum id venenatis.
-              Porta nibh venenatis cras sed felis eget velit. Id diam vel quam
-              elementum pulvinar etiam non.
-            </p>
-            <p>
-              Ultrices tincidunt arcu non sodales neque sodales ut. Sed enim ut
-              sem viverra aliquet eget sit amet. Lacus luctus accumsan tortor
-              posuere ac ut consequat semper viverra. Viverra accumsan in nisl
-              nisi scelerisque eu ultrices. In massa tempor nec feugiat nisl
-              pretium fusce.
+              I'm Aryamann Verma, a software engineer with a passion for
+              problem-solving and programming. My experience spans from field
+              technician work to developing personal projects, always with a
+              focus on leveraging technology to create efficient solutions.
             </p>
           </div>
         </section>
         <section>
           <h2 class="section-title">Education</h2>
           <div class="content">
-            <p>Corporis voluptates tenetur laudantium.</p>
+            <ul>
+              <li>
+                Diploma in Computer Programming, Georgian College (2021-2023)
+              </li>
+              <li>
+                Key courses: Object-Oriented Programming, Advanced Databases,
+                Web Programming, Cloud Computing
+              </li>
+            </ul>
           </div>
         </section>
         <section>
           <h2 class="section-title">Skills</h2>
           <div class="content">
-            <p>officia unde omnis</p>
+            <ul>
+              <li>
+                Languages: Java, JavaScript, Python, C/C++, C#, SQL, HTML/CSS
+              </li>
+              <li>
+                Frameworks & Tools: React.js, Node.js, Vue.js, REST API, Git,
+                AWS
+              </li>
+              <li>
+                Specialties: Full-stack development, Network management, Cloud
+                platforms
+              </li>
+            </ul>
           </div>
         </section>
       </main>
