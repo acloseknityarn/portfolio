@@ -1,20 +1,22 @@
 import { defineConfig } from "astro/config";
 import node from "@astrojs/node";
 
-import vercel from "@astrojs/vercel/serverless";
+import vercelStatic from "@astrojs/vercel/static";
 
 // https://astro.build/config
 export default defineConfig({
   devToolbar: {
     enabled: false,
   },
-  // NOTE: uncomment this to test build locally, and comment the vercel adapter
-  // output: "server",
-  // adapter: node({
-  //   mode: "standalone",
-  // }),
-
-  // NOTE: to run the local server (pnpm dev) & local build (pnpm build) comment this
-  output: "server",
-  adapter: vercel(),
+  output: "static",
+  adapter: vercelStatic({
+    imageService: true,
+    devImageService: 'sharp',
+    imagesConfig: {
+      sizes: [360, 480, 768, 1080, 1920], 
+      formats: ['image/avif', 'image/webp'],
+      // TODO: set this later
+      // minimumCacheTTL: 5 * 60
+    }
+  }),
 });
