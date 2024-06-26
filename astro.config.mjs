@@ -13,6 +13,7 @@ export default defineConfig({
     imageService: true,
     devImageService: 'sharp',
     imagesConfig: {
+      domains: [],
       sizes: [360, 480, 768, 1080, 1920], 
       formats: ['image/avif', 'image/webp'],
       // TODO: set this later
