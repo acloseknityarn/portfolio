@@ -16,8 +16,8 @@ const formattedDate = format(publishDate, "MMMM d, yyyy");
   <a href={`/blog/${slug}`}>
     <article>
       <h2>{title}</h2>
-      <p>{formattedDate}</p>
-      <p>{description}</p>
+      <p class="date-para">{formattedDate}</p>
+      <p class="description-para">{description}</p>
     </article>
   </a>
 </li>
@@ -60,5 +60,16 @@ const formattedDate = format(publishDate, "MMMM d, yyyy");
 
   h2 {
     color: var(--accent-dark);
+  }
+
+  .date-para {
+    font-family: montserrat;
+    font-size: var(--text-base);
+  }
+
+  .description-para {
+    margin-top: 0.5rem;
+    font-family: "Merriweather", serif;
+    font-size: var(--text-lg);
   }
 </style>
