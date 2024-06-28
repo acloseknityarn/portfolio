@@ -5,12 +5,13 @@ interface Props {
   title: string;
   tagline?: string;
   align?: "start" | "center";
+  uiType?: 'small' | 'medium' | 'large';
 }
 
-const { align = "center", tagline, title } = Astro.props;
+const { align = "center", tagline, title, uiType = 'large' } = Astro.props;
 ---
 
-<div class:list={["hero", align]}>
+<div class:list={["hero", align, uiType]}>
   <Stack gapClass="gap-4">
     <Stack gapClass="gap-2">
       <h1 class="title">{title}</h1>
@@ -30,6 +31,15 @@ const { align = "center", tagline, title } = Astro.props;
   .tagline {
     max-width: 37ch;
     margin-inline: auto;
+  }
+
+  .medium .title {
+    font-size: 3rem;
+  }
+
+  .medium .tagline {
+    font-size: 1.5rem;
+    line-height: 1.25;
   }
 
   .title {
