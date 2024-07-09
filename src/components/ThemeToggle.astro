@@ -1,10 +1,11 @@
 ---
 import Icon from './Icon.astro';
+import VisuallyHidden from './VisuallyHidden.astro';
 ---
 
 <theme-toggle>
 	<button>
-		<span class="sr-only">Dark theme</span>
+		<VisuallyHidden>Dark theme</VisuallyHidden>
 		<span class="icon light"><Icon icon="sun" /></span>
 		<span class="icon dark"><Icon icon="moon-stars" /></span>
 	</button>

@@ -133,7 +133,7 @@
 html,
 body {
   min-height: 100%;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
 }
 
 body {
@@ -175,8 +175,11 @@ h1 {
   font-size: var(--text-5xl);
 }
 
-h2 {
+/* h2 {
   font-size: var(--text-4xl);
+} */
+h2 {
+  font-size: var(--text-xl);
 }
 
 h3 {
@@ -192,18 +195,6 @@ h5 {
 }
 
 /* Utilities */
-
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
-}
 
 .gap-2 {
   gap: 0.5rem;
@@ -255,6 +246,10 @@ h5 {
   .lg\:gap-48 {
     gap: 12rem;
   }
+
+  h2 {
+    font-size: var(--text-4xl);
+  }
 }
 
 blockquote p {
@@ -264,9 +259,17 @@ blockquote p {
 }
 
 pre {
+  /* display: none; */
   border: 1px solid hsla(0, 0%, 53%, 0.33);
   border-radius: 16px;
   padding: 16px;
+  /* max-width: 100svw;
+  overflow-x: auto; */
+}
+
+code {
+  word-spacing: normal;
+  word-break: normal;
 }
 
 /* shiki code syntax theme switch*/

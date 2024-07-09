@@ -96,7 +96,7 @@ const iconLinks: {
         {
           iconLinks.map(({ href, icon, label }) => (
             <a href={href} class="social">
-              <span class="sr-only">{label}</span>
+              <VisuallyHidden>{label}</VisuallyHidden>
               <Icon icon={icon} />
             </a>
           ))
@@ -132,7 +132,7 @@ const iconLinks: {
         {
           iconLinks.map(({ href, icon, label }) => (
             <a href={href} class="social">
-              <span class="sr-only">{label}</span>
+              <VisuallyHidden>{label}</VisuallyHidden>
               <Icon icon={icon} />
             </a>
           ))
