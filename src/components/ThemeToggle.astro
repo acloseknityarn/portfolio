@@ -69,6 +69,7 @@ import VisuallyHidden from './VisuallyHidden.astro';
 </style>
 
 <script>
+	// custom html element
 	class ThemeToggle extends HTMLElement {
 		constructor() {
 			super();
@@ -82,7 +83,10 @@ import VisuallyHidden from './VisuallyHidden.astro';
 			};
 
 			// Toggle the theme when a user clicks the button.
-			button.addEventListener('click', () => setTheme(!this.isDark()));
+			button.addEventListener('click', () => {
+				const isWebsiteInDarkMode = this.isDark()
+				return setTheme(!isWebsiteInDarkMode)
+			});
 
 			// Initialize button state to reflect current theme.
 			setTheme(this.isDark());
