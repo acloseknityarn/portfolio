@@ -107,13 +107,13 @@ function isDark() {
 }
 ```
 
-Lastly the function `isDark` as the name suggests, returns true if the page is in dark theme, else false. Internally, at the code level it is checking if our html has the class 'theme-dark' or not.
+Finally the function `isDark` as the name suggests, returns true if the page is in dark theme, else false. Internally, at the code level it is checking if our html has the class 'theme-dark' or not.
 
 ##### CSS Implementation
 
 The visual representation of the theme is controlled through CSS, utilizing CSS custom properties (also known as CSS variables) for dynamic style switching:
 
-We have added the event listener to our button for adding or removing class `theme-dark` from the html element but haven't relfected a change on the page physically. To acheive this we have to use css styles conditionally on the `theme-dark` class. Our CSS file looks like this:
+We have added the event listener to our button for adding or removing class `theme-dark` from the html element but haven't reflected a change on the page physically. To achieve this we have to use css styles conditionally on the `theme-dark` class. Our CSS file looks like this:
 
 ```css
 :root {
@@ -137,7 +137,9 @@ body {
 }
 ```
 
-root targets the html element of the page. Be preference, our logic says light theme means applying styles to `:root` and dark theme means applying styles to the same element but an added class of `theme-dark`.
+root targets the html element of the page. 
+
+We have predefined the behaviour of the css variable `:root`, whose value will toggle based on when html tag has `theme-dark` class or not.
 
 We are using custom css styles in it which are just colors keeping in mind what color scheme should be shown light vs dark. To show all this on the web page, all we need to do is apply the color `---gray-999` to the background color of our body. This makes the class logic we wrote in our JS file complete and visible in our page.
 
@@ -261,78 +263,63 @@ html.theme-dark .theme-label.light::before {
 }
 ```
 
-This CSS rule applies a transformation to the pseudo-element (`::before`) of light span make in the previous code block only when the `html` element has the class theme-dark.
+This CSS rule applies a transformation to the pseudo-element (`::before`) of light span made in the previous code block only when the `html` element has the class theme-dark.
 
 `transform: translateX(100%)` shifts the pseudo-element horizontally by 100% of its own width to the right.
 
 Creating a visual toggle effect between light and dark themes. As the theme changes, the visible indicator switches between the light and dark positions on the button.
 
-Lastly we want `localStorage` to be used, say when the page is opened for the first time and no theme is selected by default. We will add this code in our JavaScript file. Essentially, we want this code to be running the first, before our present JavaScript toggle & event listening functions. <br>
-Our updated JavaScript file would look like this:
+**Lastly we'll use `localStorage` to store user's theme preference.**
 
-```js
-function onLoadThemeInit() {
-  const getThemePreference = () => {
-    if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
-      return localStorage.getItem("theme");
+We don't want to read the already stored theme preference after the html of page gets parsed and painted. 
+
+If we do so, then there would be a gap between when the painting finishes and when the script (optionally downloaded, if it an external script) gets parsed and executed. During this time the theme will be light by default.
+
+We can only read if the preference is of dark-theme after the preference has been read from localStorage. Because of this there will be a flash of light-theme before the dark-theme gets applied (if the read preference was of dark-theme).
+
+The code to read theme preference from local storage hence, should reside in an inline script in the `head` tag like so:
+
+```html
+<head>
+  <script>
+    function onLoadThemeInit() {
+      const getThemePreference = () => {
+        if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+          return localStorage.getItem("theme");
+        }
+        return window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light";
+      };
+      const isDark = getThemePreference() === "dark";
+      document.documentElement.classList[isDark ? "add" : "remove"]("theme-dark");
+
+      if (typeof localStorage !== "undefined") {
+        // Watch the document element and persist user preference when it changes.
+        const observer = new MutationObserver(() => {
+          const isDark = document.documentElement.classList.contains("theme-dark");
+          localStorage.setItem("theme", isDark ? "dark" : "light");
+        });
+        observer.observe(document.documentElement, {
+          attributes: true,
+          attributeFilter: ["class"],
+        });
+      }
     }
-    return window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "light";
-  };
-  const isDark = getThemePreference() === "dark";
-  document.documentElement.classList[isDark ? "add" : "remove"]("theme-dark");
 
-  if (typeof localStorage !== "undefined") {
-    // Watch the document element and persist user preference when it changes.
-    const observer = new MutationObserver(() => {
-      const isDark = document.documentElement.classList.contains("theme-dark");
-      localStorage.setItem("theme", isDark ? "dark" : "light");
-    });
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["class"],
-    });
-  }
-}
-
-function setThemeEvents() {
-  // ----- event click logic ------
-  const button = document.querySelector("button");
-
-  /** Set the theme to dark/light mode. */
-  const setTheme = (dark) => {
-    document.documentElement.classList[dark ? "add" : "remove"]("theme-dark");
-    button.setAttribute("aria-pressed", String(dark));
-  };
-
-  // Toggle the theme when a user clicks the button.
-  button.addEventListener("click", () => setTheme(!isDark()));
-
-  // Initialize button state to reflect current theme.
-  setTheme(isDark());
-
-  function isDark() {
-    console.log(document.documentElement.classList.contains("theme-dark"));
-    return document.documentElement.classList.contains("theme-dark");
-  }
-}
-
-onLoadThemeInit();
-setThemeEvents();
+    onLoadThemeInit();
+  </script>
+</head>
 ```
-
-We'll focus on the highlighted code, as we've explained the remaining code above.
-The script code above implements theme preference handling using localStorage.
-
-**NOTE**: We have enclosed the previous js code in the function `setThemeEvents` handling the listeners & the new code in a `onLoadThemeInit` function. Since we want the load theme logic to run before the listener, we'll call them accordingly. If we don't do this, there'll be multiple function declarations for `isDark` which changes the intended behaviour.
 
 The `getThemePreference()` function: Checks if localStorage is available and contains a 'theme' item. If not, it falls back to the system preference using `window.matchMedia()`.
 
 `const isDark = getThemePreference() === 'dark';` checks if the theme is dark through the function defined above & adds the class `theme-dark` to html through
 `document.documentElement.classList[isDark ? 'add' : 'remove']('theme-dark');`
 
-Lastly,
+We also have wrapped this code in a `onLoadThemeInit` function for better code organization & readability.
+
+To end,
 
 ```js
 if (typeof localStorage !== "undefined") {
